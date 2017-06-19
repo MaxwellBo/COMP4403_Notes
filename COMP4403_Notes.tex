@@ -1,0 +1,29 @@
+\documentclass[fontsize=10pt,a4paper]{article}
+\usepackage{amsmath} % Essential math and alignment (use `&` to align operators') - Google for more info
+\usepackage{amssymb} % Essential symbols for sets and stuff
+
+\usepackage[margin=0.3in]{geometry} % Essential document config
+
+\usepackage[compact]{titlesec}
+\titleformat*{\section}{\normalsize\bfseries\scshape}
+\titleformat*{\subsection}{\small\bfseries}
+%\usepackage{sectsty}
+%\sectionfont{\fontsize{7}{9}\selectfont}
+%\subsectionfont{\fontsize{6}{8}\selectfont}
+%\subsubsectionfont{\fontsize{5}{7}\selectfont}
+
+\usepackage{multicol} % Imports the column
+\setlength{\columnseprule}{0.4pt} % Divide size
+
+\begin{document}
+\begin{multicols}{3}
+
+    \small
+    \section{Section Header}
+    \subsection{Subsection Header}
+    \subsubsection{Subsubsection Header}
+
+\end{multicols}
+
+\end{document}
+
