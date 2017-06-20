@@ -7,24 +7,71 @@
 \usepackage[compact]{titlesec}
 \titleformat*{\section}{\normalsize\bfseries\scshape}
 \titleformat*{\subsection}{\small\bfseries}
-%\usepackage{sectsty}
-%\sectionfont{\fontsize{7}{9}\selectfont}
-%\subsectionfont{\fontsize{6}{8}\selectfont}
-%\subsubsectionfont{\fontsize{5}{7}\selectfont}
+\usepackage{sectsty}
+\sectionfont{\fontsize{7}{9}\selectfont}
+\subsectionfont{\fontsize{6}{8}\selectfont}
+\subsubsectionfont{\fontsize{5}{7}\selectfont}
+
+\newcommand{\ts}{\textsuperscript}
 
 \usepackage{multicol} % Imports the column
 \setlength{\columnseprule}{0.4pt} % Divide size
 
 \begin{document}
 \begin{multicols}{3}
-
     \small
     \section{Tips}
 
     \begin{itemize}
-        \item There is no such thing as a \textit{shift/shift} conflict
         \item $\epsilon$ is not a terminal symbol
     \end{itemize}
+
+    \section{Context-free Grammars}
+
+    Left-associative - $(1 \oplus 2) \oplus 3$
+
+    \[E \rightarrow E \oplus T ~\vert~ T\]
+    \[T \rightarrow N\]
+
+    Right-associative - $1 \oplus (2 \oplus 3)$
+
+    \[E \rightarrow T \oplus E ~\vert~ T\]
+    \[T \rightarrow N\]
+
+    \section{First, Follow, and LL(1)}
+
+
+
+    \subsection{Calculating First sets}
+
+    \begin{itemize}
+        \item If production of form $N \rightarrow \epsilon$, add $\epsilon$ to first set for $N$ to indicate nullability
+        \item If production of form \\$N \rightarrow S_1 S_2 \ldots S_n$, then if \\$\forall i \in 1..n, \forall j \in 1..i-1 \cdot S_j$ is nullable, we add current first set for $S_i$ to first set for $N$
+        \item If every construct $S_1, \ldots, S_n$ is nullable, add $\epsilon$ to first set for $N$
+    \end{itemize}
+
+    Perform for all productions, repeating the process until no sets are modified
+
+    \section{Shift/reduce parsing}
+
+    \subsection{LR(x) parsing action conflicts}
+
+    There is no such thing as a \textit{shift/shift} conflict
+
+
+    \subsection{LR(1) parsing algorithm}
+
+    \begin{enumerate}
+        \item Perform state transition, after dequeueing start symbol of the \textit{Input} queue
+        \begin{enumerate}
+            \item If state transition was \textit{shift}, put dequeued symbol on the \textit{Parsing stack}
+            \item If state transition was \textit{reduce}, pop start symbol of the \textbf{RHS} of the reduction, and all stack elements above the start symbol, off the stack. Transition to state indicated by number currently on top of stack. Put reduced symbol on the stack. \textit{If LR(1), choose production s.t. $queue_0 \in T$, where $T$ is look-ahead set}. Follow transition path of current state, based on the reduced symbol.
+            \item If performed state transition was \textit{accept}, do nothing
+        \end{enumerate} 
+        \item Put number indicating  current state on the stack
+
+    \end{enumerate}
+
 
 
     \subsection{Subsection Header}
