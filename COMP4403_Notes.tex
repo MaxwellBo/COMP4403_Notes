@@ -1,6 +1,7 @@
 \documentclass[fontsize=10pt,a4paper]{article}
 \usepackage{amsmath} % Essential math and alignment (use `&` to align operators') - Google for more info
 \usepackage{amssymb} % Essential symbols for sets and stuff
+\usepackage{listings}
 
 \usepackage[margin=0.3in]{geometry} % Essential document config
 
@@ -45,8 +46,8 @@
 
     \section{Left-factoring and left-recursion removal}
 
-    \subsection{Removing left recursion}
 
+    \subsection{Removing left recursion}
 
     \[E \rightarrow E \oplus T ~\vert~ T\]
 
@@ -57,10 +58,59 @@
 
     This transformers a left-associative grammar into a right-associative grammar
 
+    \subsection{Recogniser Code}
+
+    $T$
+    \begin{lstlisting}[language=Java, basicstyle=\tiny]
+    tokens.match(Token.T);
+    \end{lstlisting}
+
+    $N$
+    \begin{lstlisting}[language=Java, basicstyle=\tiny]
+    parseN();
+    \end{lstlisting}
+
+    $S_1 \dots S_n$
+    \begin{lstlisting}[language=Java, basicstyle=\tiny]
+    recog(S_1); ...; recog(S_n);
+    \end{lstlisting}
+
+    $S_1 \vert S_2 \vert \dots S_n$
+    \begin{lstlisting}[language=Java, basicstyle=\tiny]
+    if (token.isIn(First(S_1))) {
+        recog(S_1);
+    } ...
+    } else if (tokens.isIn(First(S_n))) {
+        recog(S_n);
+    } else {
+        errors.error("Syntax error");
+    }
+    \end{lstlisting}
+
+
+
+    $[S]$
+    \begin{lstlisting}[language=Java, basicstyle=\tiny]
+    if (token.isIn(First(S))) {
+        recog(S);
+    }
+    \end{lstlisting}
+
+    ${S}$
+    \begin{lstlisting}[language=Java, basicstyle=\tiny]
+    while (token.isIn(First(S))) {
+        recog(S);
+    }
+    \end{lstlisting}
+
+    $(S)$
+    \begin{lstlisting}[language=Java, basicstyle=\tiny]
+    recog(S);
+    \end{lstlisting}
+
+
+
     \section{First, Follow, and LL(1)}
-
-
-
 
 
     \subsection{Calculating First sets}
@@ -73,7 +123,11 @@
 
     Perform for all productions, repeating the process until no sets are modified
 
-    \section{Shift/reduce parsing}
+    \section{Bottom up parsing}
+
+    \subsection{LR(x) parsing automaton}
+
+    Don't forget to first add production: $S' \rightarrow E$.
 
     \subsection{LR(x) parsing action conflicts}
 
@@ -82,14 +136,18 @@
 
     \subsection{LR(1) parsing algorithm}
 
+    Put $\$0$ on the \textit{Parsing stack}, and the input string, followed by $\$$, in the \textit{Input} queue
+
     \begin{enumerate}
-        \item Perform state transition, after dequeueing start symbol of the \textit{Input} queue
+        \item Choose transition action based on look-ahead. If it is
         \begin{enumerate}
-            \item If state transition was \textit{shift}, put dequeued symbol on the \textit{Parsing stack}
-            \item If state transition was \textit{reduce}, pop start symbol of the \textbf{RHS} of the reduction, and all stack elements above the start symbol, off the stack. Transition to state indicated by number currently on top of stack. Put reduced symbol on the stack. \textit{If LR(1), choose production s.t. $queue_0 \in T$, where $T$ is look-ahead set}. Follow transition path of current state, based on the reduced symbol.
-            \item If performed state transition was \textit{accept}, do nothing
+            \item \textit{shift}, dequeue start symbol of \textit{Input} queue, and put dequeued symbol on the \textit{Parsing stack}
+            \item \textit{reduce}, pop start symbol of the \textbf{RHS} of the reduction, and all stack elements above the start symbol, off the stack. Transition to state indicated by number currently on top of stack. Put reduced symbol on the stack. \textit{If LR(1), choose production s.t. $queue_0 \in T$, where $T$ is look-ahead set}. Follow transition path of current state, based on the reduced symbol.
+            \item \textit{accept}, do nothing
         \end{enumerate} 
-        \item Put number indicating  current state on the stack
+        \item Put number indicating current state on the stack
+
+    Repeat numbered process
 
     \end{enumerate}
 
