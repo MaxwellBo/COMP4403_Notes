@@ -38,7 +38,28 @@
     \[E \rightarrow T \oplus E ~\vert~ T\]
     \[T \rightarrow N\]
 
+    \[E \rightarrow TE'\]
+    \[E' \rightarrow \epsilon ~\vert~ \oplus TE'\]
+    \[T \rightarrow N\]
+
+
+    \section{Left-factoring and left-recursion removal}
+
+    \subsection{Removing left recursion}
+
+
+    \[E \rightarrow E \oplus T ~\vert~ T\]
+
+    is transformed into
+
+    \[E \rightarrow TE'\]
+    \[E' \rightarrow \epsilon ~\vert~ \oplus TE'\]
+
+    This transformers a left-associative grammar into a right-associative grammar
+
     \section{First, Follow, and LL(1)}
+
+
 
 
 
