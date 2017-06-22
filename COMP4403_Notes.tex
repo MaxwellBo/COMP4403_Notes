@@ -2,7 +2,7 @@
 \usepackage{amsmath} % Essential math and alignment (use `&` to align operators') - Google for more info
 \usepackage{mathtools} % amsmath extension for some useful stuff
 \usepackage{amssymb} % Essential symbols for sets and stuff
-\usepackage{bussproofs} % Proof trees
+\usepackage{mathpartir} % Proof trees
 \usepackage{listings}
 
 % was 0.3in
@@ -346,7 +346,42 @@
         \item after return the calling procedure handles deallocating any parameters (using instruction \textbf{DEALLOC\_STACK})
     \end{enumerate}
 
+    \section{Static semantics}
 
+    \[ \texttt{e} ::= \texttt{n} ~\vert~ \texttt{id} ~\vert~ \texttt{e.id} ~\vert~ \texttt{record(id, fe)} \]
+    \[\texttt{fe} ::= \texttt{id} \mapsto \texttt{e}\]
+    
+    \[syms \vdash \texttt{n} : int\]
+
+    \[\inferrule{
+    \texttt{id} \in \texttt{dom}(syms)\\
+    syms(\texttt{id}) = VarEntry(T)}
+    {syms \vdash id : T}\]
+
+    \[\inferrule{
+    syms \vdash \texttt{e} : RecordType(fields)\\
+    \texttt{id} \in \texttt{dom}(fields)}
+    {syms \vdash \texttt{e.id} : fields(\texttt{id})}\]
+
+    \[\inferrule{
+    \texttt{id} \in \texttt{dom}(syms)\\
+    syms(\texttt{id}) = TypeEntry(RecordType(fields))\\
+    \texttt{dom}(fields) = \texttt{dom(fe)}\\
+    \forall \texttt{id} \in \texttt{dom}(fields) \cdot syms \vdash \texttt{fe(id)} : fields(\texttt{id})}
+    {syms \vdash \texttt{record(id, fe)} : RecordType(fields)}\]
+
+    \[ \texttt{e} ::= \texttt{n} ~\vert~ \texttt{id} ~\vert~ \lambda\ \texttt{id1}: \texttt{id2}\ \texttt{e} ~\vert~ \texttt{e1(e2)}\]
+
+    \[\inferrule{
+    \texttt{id} \in \texttt{dom}(syms)\\
+    syms(\texttt{id2}) = TypeEntry(T1)\\
+    syms \oplus \{ \texttt{id1} \mapsto VarEntry(T1)\} \vdash \texttt{e} : T2}
+    {syms \vdash (\lambda\ \texttt{id1}: \texttt{id2}\ \texttt{e}): (T1 \rightarrow T2)}\]
+
+    \[\inferrule{
+    syms \vdash \texttt{e1} : T1 \rightarrow T2\\
+    syms \vdash \texttt{e2} : T1}
+    {syms \vdash \texttt{e1(e2)}: T2}\]
 
 
 
