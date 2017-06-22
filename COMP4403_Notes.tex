@@ -370,7 +370,7 @@
     \forall \texttt{id} \in \texttt{dom}(fields) \cdot syms \vdash \texttt{fe(id)} : fields(\texttt{id})}
     {syms \vdash \texttt{record(id, fe)} : RecordType(fields)}\]
 
-    \[ \texttt{e} ::= \texttt{n} ~\vert~ \texttt{id} ~\vert~ \lambda\ \texttt{id1}: \texttt{id2}\ \texttt{e} ~\vert~ \texttt{e1(e2)}\]
+    \[ \texttt{e} ::= \texttt{n} ~\vert~ \texttt{id} ~\vert~ \dots ~\vert~ \lambda\ \texttt{id1}: \texttt{id2}\ \texttt{e} ~\vert~ \texttt{e1(e2)}\]
 
     \[\inferrule{
     \texttt{id} \in \texttt{dom}(syms)\\
@@ -383,6 +383,21 @@
     syms \vdash \texttt{e2} : T1}
     {syms \vdash \texttt{e1(e2)}: T2}\]
 
+    \[ \texttt{e} ::= \texttt{n} ~\vert~ \texttt{id} ~\vert~ \dots ~\vert~ \texttt{let id = e in end}\]
+
+
+    \[\inferrule{
+    syms \vdash \texttt{e1} : T1\\
+    syms \vdash \texttt{e1} \xrightarrow{e} v1\\
+    syms \oplus \{ \texttt{id} \mapsto ConstEntry(T1, v1) \} \vdash \texttt{e2} : T2\\
+    syms \oplus \{ \texttt{id} \mapsto ConstEntry(T1, v1) \} \vdash \texttt{e2} \xrightarrow{e} v2
+    }
+    {syms \vdash \texttt{let id = e1 in e2 end}: T2\\
+    syms \vdash \texttt{let id = e1 in e2 end} \xrightarrow{e} v2}\]
+
+
+
+    \[\]
 
 
 \end{multicols}
