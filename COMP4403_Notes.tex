@@ -134,6 +134,26 @@
     There is no such thing as a \textit{shift/shift} conflict
 
 
+    \subsection{Derived LR(1) items}
+
+    If a state has an LR(1) item of the form
+
+    \[[N \rightarrow a \cdot M \beta, ~T]\]
+
+    where the nonterminal $M$ has productions
+
+    \[M \rightarrow a_1 ~\vert~ a_2 ~\vert~ \dots ~\vert~ a_m\]
+
+    and $T = \{ a_1, a_2, \dots, a_m \}$, then the state also includes the derived items
+
+    \[[M \rightarrow \cdot a_1, ~T']\]
+    \[\dots\]
+    \[[M \rightarrow \cdot a_m, ~T']\]
+
+    where $T' = First(\beta a_1) \cup\, \dots\, \cup\, First(\beta a_n)$. If $\beta$ is not nullable $T' = First(\beta)$ and if $\beta$ is nullable, $T' = First(\beta) - \{\epsilon\} \cup T$. 
+
+
+
     \subsection{LR(1) parsing algorithm}
 
     Put $\$0$ on the \textit{Parsing stack}, and the input string, followed by $\$$, in the \textit{Input} queue
