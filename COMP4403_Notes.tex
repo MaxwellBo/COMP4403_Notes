@@ -266,6 +266,23 @@
     \subsection{Calling a procedure}
 
     \begin{enumerate}
+        \item any parameters to the procedure are pushed onto the stack;
+        \item the static link is pushed onto the stack;
+        \item the current frame pointer is pushed onto the stack to create the dynamic link;
+        \item the frame pointer is set so that it contains the address of the start of the new stack frame (i.e., the address of the location containing the static link);
+        \item the current value of the program counter (which is the address of the instruction after the call) is pushed onto the stack to form the return address;
+        \item the program counter is set to the address of the procedure and execution of the body of the procedure begins;
+        \item space is allocated on the stack for any local variables (using instruction \textbf{ALLOC\_STACK}).
+    \end{enumerate}
+
+    \subsection{Returning from a procedure}
+
+    \begin{enumerate}
+        \item the program counter is set to the return address in the current activation record;
+        \item the frame pointer is set to the dynamic link;
+        \item the stack pointer is set so that all the space used by the stack frame (but not parameters) is popped from the stack;
+        \item execution continues at the instruction addressed by the (restored) program counter; and
+        \item after return the calling procedure handles deallocating any parameters (using instruction \textbf{DEALLOC\_STACK})
     \end{enumerate}
 
 
