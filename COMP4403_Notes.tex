@@ -1,5 +1,6 @@
 \documentclass[fontsize=10pt,a4paper]{article}
 \usepackage{amsmath} % Essential math and alignment (use `&` to align operators') - Google for more info
+\usepackage{mathtools} % amsmath extension
 \usepackage{amssymb} % Essential symbols for sets and stuff
 \usepackage{listings}
 
@@ -122,6 +123,30 @@
     \end{itemize}
 
     Perform for all productions, repeating the process until no sets are modified
+
+    \subsection{Calculating Follow sets}
+
+    TODO
+
+    \subsection{LL(1) Grammars}
+
+    \subsubsection{Definition}
+
+    A BNF grammar is LL(1) if for each nonterminal, $N$, where $N \rightarrow a_1 ~\vert~ a_2 ~\vert~ \dots ~\vert~ a_n$,
+
+    \begin{itemize}
+        \item the first sets of each pair of alternatives for $N$ are disjoint:
+
+        \[\forall i, j \in 1..n \cdot i \neq j \implies First(a_i) \cap First(a_j) = \{\}\]
+
+        \item if $N$ is nullable, $First(N)$ and $Follow(N)$ are disjoint, i.e.,
+
+        \[N \xRightarrow{*} \epsilon \implies First(N) \cup Follow(N) = \{\}\]
+
+    \end{itemize}
+
+    Because the first set fr an alternative includes $\epsilon$ if the alternative is nullable, the constraint that the first sets of all the alternatives are pairwise disjoint implies at most one alternative is nullable. [This is the reason for including $\epsilon$ in the First sets.]
+    
 
     \section{Bottom up parsing}
 
