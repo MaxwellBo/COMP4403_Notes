@@ -2,6 +2,7 @@
 \usepackage{amsmath} % Essential math and alignment (use `&` to align operators') - Google for more info
 \usepackage{mathtools} % amsmath extension for some useful stuff
 \usepackage{amssymb} % Essential symbols for sets and stuff
+\usepackage{bussproofs} % Proof trees
 \usepackage{listings}
 
 % was 0.3in
@@ -135,6 +136,7 @@
     \end{lstlisting}
 
 
+    Methods like \texttt{token.getValue()} do not consume the token. \texttt{match(NUMBER)} will need to be called immediately afterwards.
 
     \section{First, Follow, and LL(1)}
 
@@ -149,9 +151,9 @@
 
     Perform for all productions, repeating the process until no sets are modified
 
-    \subsection{Calculating Follow sets}
+    % \subsection{Calculating Follow sets}
 
-    TODO
+    % TODO
 
     \subsection{LL(1) Grammars}
 
@@ -225,28 +227,21 @@
 
     \subsection{Kinds of parameter passing mechanisms}
 
-    \begin{itemize}
-        \item \textit{Call by const}: the formal parameter acts as a read-only local variable that is initially assigned the value of the actual parameter expression.
-        \item \textit{Call by value}: the formal parameter acts as a local variable that is initially assigned the value of the actual parameter expression.
-        \item \textit{Call by result}: the formal parameter acts as a local variable whose final value is assigned to the actual parameter variable.
-        \item \textit{Call by value-result}: a single parameter acts as both a value and a result parameter
-    \end{itemize}
+    \textit{Call by const}: the formal parameter acts as a read-only local variable that is initially assigned the value of the actual parameter expression.\\
+    \textit{Call by value}: the formal parameter acts as a local variable that is initially assigned the value of the actual parameter expression.\\
+    \textit{Call by result}: the formal parameter acts as a local variable whose final value is assigned to the actual parameter variable.\\
+    \textit{Call by value-result}: a single parameter acts as both a value and a result parameter
 
     \subsection{Kinds of parameter passing}
 
-    \begin{itemize}
-        \item \textit{Call by reference}: the formal parameter is really the address of the actual parameter variable; all references to the formal parameter are applied (via that address) to the actual parameter variable immediately. (In Pascal known as a \textbf{var} parameter).
-        \item \textit{Call by name}: the actual parameter expression is evaluated every time the formal parameter is accessed.
-        \item \textit{Passing procedures (or functions) as parameters}: need to pass the address of the procedure as well as the static link for the procedure’s environment.
-        \item \textit{Returning procedures (or functions)}: need to return the address of the procedure as well as the static link for the procedure’s environment - note that this requires the environment of the returned procedure to be maintained which means that the simple stack-based allocation of frames is not sufficient.
-
-    \end{itemize}
+    \textit{Call by reference}: the formal parameter is really the address of the actual parameter variable; all references to the formal parameter are applied (via that address) to the actual parameter variable immediately. (In Pascal known as a \textbf{var} parameter).\\
+    \textit{Call by name}: the actual parameter expression is evaluated every time the formal parameter is accessed.\\
+    \textit{Passing procedures (or functions) as parameters}: need to pass the address of the procedure as well as the static link for the procedure’s environment.\\
+    \textit{Returning procedures (or functions)}: need to return the address of the procedure as well as the static link for the procedure’s environment - note that this requires the environment of the returned procedure to be maintained which means that the simple stack-based allocation of frames is not sufficient.
 
     \section{Dynamic Memory Allocation/Deallocation}
 
     \subsection{Garbage collection schemes}
-
-    \subsubsection{Mark-and-sweep}
 
     Mark and sweep garbage collection consists of
 
@@ -254,8 +249,6 @@
         \item a phase that \textit{marks} all the accessible objects
         \item a phase that \textit{sweeps} up the objects left unmarked and adds them to the free list
     \end{itemize}
-
-    \subsubsection{Stop-and-copy}
 
     Stop-and-copy (or two-space) garbage collection
 
@@ -268,8 +261,6 @@
     \end{itemize}
 
     \textit{Find all objects accessible from the runtime stack or global variables (either directly or indirectly) and copy them into the second space, allocating them sequentially (so that they are allocated more compactly), and placing a forwarding pointer with the old object to the new copy, so that other references to the (old) object can be updated to point to the new object.}
-
-    \subsubsection{Generational schemes}
 
     Generational schemes use a scheme similar to the two-space scheme but make use of multiple spaces
 
@@ -354,6 +345,9 @@
         \item execution continues at the instruction addressed by the (restored) program counter; and
         \item after return the calling procedure handles deallocating any parameters (using instruction \textbf{DEALLOC\_STACK})
     \end{enumerate}
+
+
+
 
 
 \end{multicols}
