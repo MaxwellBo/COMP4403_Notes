@@ -151,10 +151,123 @@
 
     \end{enumerate}
 
+    \section{Parameters}
 
+    \subsection{Kinds of parameter passing mechanisms}
 
-    \subsection{Subsection Header}
-    \subsubsection{Subsubsection Header}
+    \begin{itemize}
+        \item \textit{Call by const}: the formal parameter acts as a read-only local variable that is initially assigned the value of the actual parameter expression.
+        \item \textit{Call by value}: the formal parameter acts as a local variable that is initially assigned the value of the actual parameter expression.
+        \item \textit{Call by result}: the formal parameter acts as a local variable whose final value is assigned to the actual parameter variable.
+        \item \textit{Call by value-result}: a single parameter acts as both a value and a result parameter
+    \end{itemize}
+
+    \subsection{Kinds of parameter passing}
+
+    \begin{itemize}
+        \item \textit{Call by reference}: the formal parameter is really the address of the actual parameter variable; all references to the formal parameter are applied (via that address) to the actual parameter variable immediately. (In Pascal known as a \textbf{var} parameter).
+        \item \textit{Call by name}: the actual parameter expression is evaluated every time the formal parameter is accessed.
+        \item \textit{Passing procedures (or functions) as parameters}: need to pass the address of the procedure as well as the static link for the procedure’s environment.
+        \item \textit{Returning procedures (or functions)}: need to return the address of the procedure as well as the static link for the procedure’s environment - note that this requires the environment of the returned procedure to be maintained which means that the simple stack-based allocation of frames is not sufficient.
+
+    \end{itemize}
+
+    \section{Dynamic Memory Allocation/Deallocation}
+
+    \subsection{Garbage collection schemes}
+
+    \subsubsection{Mark-and-sweep}
+
+    Mark and sweep garbage collection consists of
+
+    \begin{itemize}
+        \item a phase that \textit{marks} all the accessible objects
+        \item a phase that \textit{sweeps} up the objects left unmarked and adds them to the free list
+    \end{itemize}
+
+    \subsubsection{Stop-and-copy}
+
+    Stop-and-copy (or two-space) garbage collection
+
+    \begin{itemize}
+        \item divides the available memory into two (large) spaces
+        \item memory is allocated sequentially from one space until it runs out
+        \item garbage collection consists of relocating all accessible objects from the first space to the second space
+        \item because the objects are allocated sequentially in the second space, they are compacted
+        \item when the copy is completed the roles of the spaces are swapped for the next garbage collection
+    \end{itemize}
+
+    \textit{Find all objects accessible from the runtime stack or global variables (either directly or indirectly) and copy them into the second space, allocating them sequentially (so that they are allocated more compactly), and placing a forwarding pointer with the old object to the new copy, so that other references to the (old) object can be updated to point to the new object.}
+
+    \subsubsection{Generational schemes}
+
+    Generational schemes use a scheme similar to the two-space scheme but make use of multiple spaces
+
+    \begin{itemize}
+        \item the spaces are organised based on the length of time its objects have survived
+        \item the age of an object is the number of times it has been collected
+        \item older objects are migrated to an old object space
+        \item newer objects go in the new object space
+        \item the objects in the old object space don’t need to be copied when the new object space is garbage collected
+        \item the old object space may have to be garbage collected at some stage
+    \end{itemize}
+
+    \section{Regular expressions and finite state machines}
+
+    \subsection{Definitions}
+
+    The empty closure of a state $x$ in an NFA $N$, $\epsilon$-closure$(x, N)$, is the set of states in $N$ that are reachable from $x$ via any number of empty transitions.
+
+    The empty closure of a set of states $X$ in an NFA $N$, $\epsilon$-closure$(X, N)$, is the set of states in $N$ that are reachable from any of the states in $X$ via any number of empty transitions.
+
+    \subsection{Constructing the DFA from the NFA}
+
+    \begin{itemize}
+        \item The label of the start state of the DFA consists of the set of states containing the start state $s_0$ of the NFA plus all the states in the NFA that are reachable from its start state by one or more empty transitions.
+
+        \[S_0 = \epsilon\text{-closure}(s_0, N)\]
+
+        \item The process for forming a DFA works with a set of unmarked DFA states by selecting an unmarked DFA state and considering all transitions from it on symbols.
+
+        \item The initial set of unmarked states contains just $S_0$.
+
+        The followig process is repeated util there are no unmarked DFA states left.
+
+        \item An unmarked DFA state $S$ is selected (the first one is $S_0$).
+
+        \item For each symbol $a$,
+
+        \begin{itemize}
+            \item we consider the set of states that can be reached from any state in $S$ by a transition on $a$; call this set of states $X$
+            \item if $X$ is nonempty, we add a new state to the DFA labelled with $X' = \epsilon\text{-closure}(X, N)$, unless a state with that label already exists
+            \item a transition from $S$ to $X'$ on a is added to the DFA.
+        \end{itemize}
+
+        \item The state $S$ is marked as having being processed.
+
+    \end{itemize}
+
+    \section{Stack Machine}
+
+    \subsection{Definitions}
+
+    Each activation contains:
+
+    \textbf{a static link} (at offset 0 from \textit{fp}) also called an access link, it is used for accessing non-local variables;
+
+    \textbf{a dynamic link} (at offset 1) also called a control link, it contains the address of the activation record of the calling procedure (so the frame pointer can be restored on return from the procedure);
+
+    \textbf{a return address} (at offset 2) which is the address of the instruction to execute on return from the procedure (used for restoring the program counter on return);
+
+    \textbf{local variables} which are allocated sequentially on the stack with addresses relative to the frame pointer starting from offset 3; and
+
+    \textbf{parameters} which are allocated sequentially on the stack with negative addresses relative to the frame pointer.
+
+    \subsection{Calling a procedure}
+
+    \begin{enumerate}
+    \end{enumerate}
+
 
 \end{multicols}
 
