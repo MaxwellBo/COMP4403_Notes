@@ -1,14 +1,16 @@
 \documentclass[fontsize=10pt,a4paper]{article}
 \usepackage{amsmath} % Essential math and alignment (use `&` to align operators') - Google for more info
-\usepackage{mathtools} % amsmath extension
+\usepackage{mathtools} % amsmath extension for some useful stuff
 \usepackage{amssymb} % Essential symbols for sets and stuff
 \usepackage{listings}
 
-\usepackage[margin=0.3in]{geometry} % Essential document config
+% was 0.3in
+\usepackage[margin=0.1in]{geometry} % Essential document config
 
 \usepackage[compact]{titlesec}
 \titleformat*{\section}{\normalsize\bfseries\scshape}
 \titleformat*{\subsection}{\small\bfseries}
+
 \usepackage{sectsty}
 \sectionfont{\fontsize{7}{9}\selectfont}
 \subsectionfont{\fontsize{6}{8}\selectfont}
@@ -17,7 +19,29 @@
 \newcommand{\ts}{\textsuperscript}
 
 \usepackage{multicol} % Imports the column
-\setlength{\columnseprule}{0.4pt} % Divide size
+\setlength{\columnseprule}{0.2pt} % Divide size, was 0.4pt
+
+
+% ----- NEIL'S STUFF -----
+% multicol params
+\setlength{\premulticols}{1pt}
+\setlength{\postmulticols}{1pt}
+\setlength{\multicolsep}{1pt}
+\setlength{\columnsep}{2pt}
+
+% no section numbers
+\setcounter{secnumdepth}{0}
+
+% indenting off
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+
+% page numbers off
+\pagestyle{empty}
+
+% ----- END NEIL'S STUFF -----
+
+
 
 \begin{document}
 \begin{multicols}{3}
@@ -62,27 +86,28 @@
     \subsection{Recogniser Code}
 
     $T$
-    \begin{lstlisting}[language=Java, basicstyle=\tiny]
+    \begin{lstlisting}[language=Java]
     tokens.match(Token.T);
     \end{lstlisting}
 
     $N$
-    \begin{lstlisting}[language=Java, basicstyle=\tiny]
+    \begin{lstlisting}[language=Java]
     parseN();
     \end{lstlisting}
 
     $S_1 \dots S_n$
-    \begin{lstlisting}[language=Java, basicstyle=\tiny]
+    \begin{lstlisting}[language=Java]
     recog(S_1); ...; recog(S_n);
     \end{lstlisting}
 
     $S_1 \vert S_2 \vert \dots S_n$
-    \begin{lstlisting}[language=Java, basicstyle=\tiny]
+    \begin{lstlisting}[language=Java]
     if (token.isIn(First(S_1))) {
         recog(S_1);
     } ...
-    } else if (tokens.isIn(First(S_n))) {
-        recog(S_n);
+    } else if (
+        tokens.isIn(First(S_n))) {
+            recog(S_n);
     } else {
         errors.error("Syntax error");
     }
@@ -91,21 +116,21 @@
 
 
     $[S]$
-    \begin{lstlisting}[language=Java, basicstyle=\tiny]
+    \begin{lstlisting}[language=Java]
     if (token.isIn(First(S))) {
         recog(S);
     }
     \end{lstlisting}
 
     ${S}$
-    \begin{lstlisting}[language=Java, basicstyle=\tiny]
+    \begin{lstlisting}[language=Java]
     while (token.isIn(First(S))) {
         recog(S);
     }
     \end{lstlisting}
 
     $(S)$
-    \begin{lstlisting}[language=Java, basicstyle=\tiny]
+    \begin{lstlisting}[language=Java]
     recog(S);
     \end{lstlisting}
 
